@@ -11,16 +11,21 @@ margin-top: 40px;
 `
 // the above will divide them into 5 columns stretched
 // the grid-gap will put a gap between the rows and columns but not on the edges
+function getLowerSectionCoins(coinList, filteredCoins){
+    return (filteredCoins && Object.keys(filteredCoins)) ||
+    Object.keys(coinList).slice(0, 100);
+}
 
-function getCoinToDisplay(coinList, topSection, favorites){
-    return topSection? favorites :  Object.keys(coinList).slice(0, 100);
+
+function getCoinsToDisplay(coinList, topSection, favorites, filterCoins){
+    return topSection? favorites :  getLowerSectionCoins(coinList, filterCoins);
 }
 
 export default function CoinGrid({topSection}) {
     return (
         <AppContext.Consumer>
-            {({coinList, favorites}) => <CoinGridStyled>
-                {getCoinToDisplay(coinList, topSection, favorites).map(coinKey => 
+            {({coinList, favorites, filteredCoins}) => <CoinGridStyled>
+                {getCoinsToDisplay(coinList, topSection, favorites, filteredCoins).map(coinKey => 
                     <CoinTile coinKey={coinKey} topSection={topSection} />)}
             </CoinGridStyled> }
         </AppContext.Consumer>
