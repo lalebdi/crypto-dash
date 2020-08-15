@@ -51,7 +51,7 @@ function CHnagePercent ({data}){
 
 function PriceTile ({sym, data, currentFavorite, setCurrentFavorite}){
     return(
-        <PriceTileStyled currentFavorite={currentFavorite} onCLick={setCurrentFavorite}>
+        <PriceTileStyled currentFavorite={currentFavorite} onClick={setCurrentFavorite}>
             <CoinHeaderGridStyled>
                 <div> {sym} </div>
                 <CHnagePercent data= {data} />
