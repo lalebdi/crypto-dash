@@ -1,18 +1,17 @@
 import React from 'react';
 import { AppContext } from '../App/AppProvider';
 
-// the name is weather the settings page or the dashboard
-export default function  Page({name, children}) {
+export default function ({ name, children }) {
     return (
         <AppContext.Consumer>
-            {({page}) => {
-                if (page !== name) {
+            {({ page }) => {
+                if (page !== name) { //Checking the name of teh page with the name of the child
                     return null;
                 }
-            return <div> {children} </div>
+                return <div>{children}</div>;
             }}
         </AppContext.Consumer>
-    )
+    );
 }
 
 // the page in line 8 is from the state

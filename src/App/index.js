@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import AppBar from './AppBar';
 import AppLayout from './AppLayout';
-import {AppProvider} from './AppProvider';
+import { AppProvider } from './AppProvider';
 import Settings from '../Settings/Index';
 import Content from '../Shared/Content';
 import Dashboard from '../Dashboard/Index'

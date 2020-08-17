@@ -1,96 +1,99 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { SelectableTile } from '../Shared/Tile';
-import { fontSize3, fontSizeBig, greenBoxShadow } from '../Shared/Styles';
-import { CoinHeaderGridStyled } from '../Settings/CoinHeaderGrid';
 import { AppContext } from '../App/AppProvider';
+import { SelectableTile } from '../Shared/Tile';
+import { fontSize3, fontSizeBig, blueBoxShadow } from '../Shared/Styles';
+import { StyledCoinHeaderGrid } from '../Settings/CoinHeaderGrid';
 
 const JustifyRight = styled.div`
-justify-self: right;
+    justify-self: right;
+    color:#35bf2e;
 `
+
 const JustifyLeft = styled.div`
-justify-self: left;
+    justify-self: left;
+`
+const CoinPrice = styled.div`
+    ${fontSizeBig}
 `
 
-const TickerPrice = styled.div`
- ${fontSizeBig}
-`
-const ChangePct = styled.div`
- color: green;
- ${props => props.red && css`
-    color:red;
-`}
+const ChangePCT = styled.div`
+    color: #35bf2e;
+    ${props => props.red && css` color: red; `}
 `
 
+// fn() to shorten some price digits
 const numberFormat = number => {
-    return +(number + '').slice(0, 7);
+    return +(number + '').slice(0, 7);  // Conv number to string -> slice it -> conv back to number(the + at the beginning does that conv)
 }
 
-const PriceTileStyled = styled(SelectableTile)`
-${props => props.compact && css`
-display: grid;
-${fontSize3}
-grid-gap: 5px;
-grid-template-columns: repeat(3, 1fr);
-justify-items: right;
-`}
-${props => props.currentFavorite && css`
-${greenBoxShadow}
-pointer-events: none;
-`}
+const StyledPriceTile = styled(SelectableTile)`
+    ${props => props.compact && css`
+        display: grid;
+        ${fontSize3}
+        grid-gap: 1px;
+        grid-template-columns: repeat(3, 1fr);
+        justify-items: right;
+    `}
+    ${props => props.currentFavourite && css`
+        ${blueBoxShadow}
+        pointer-events: none; /*If the user had already selected current favourite, then the user can't click on that tile again*/
+    `}
 `
-function CHnagePercent ({data}){
-    return(
+
+function ChangePercent({ data }) {
+    return (
         <JustifyRight>
-            <ChangePct red={data.CHANGEPCT24HOUR < 0}>
-                    {numberFormat(data.CHANGEPCT24HOUR)}
-            </ChangePct>
+            <ChangePCT red={data.CHANGEPCT24HOUR < 0}>
+                {numberFormat(data.CHANGEPCT24HOUR)}%
+            </ChangePCT>
         </JustifyRight>
-    )
+    );
 }
 
-function PriceTile ({sym, data, currentFavorite, setCurrentFavorite}){
-    return(
-        <PriceTileStyled currentFavorite={currentFavorite} onClick={setCurrentFavorite}>
-            <CoinHeaderGridStyled>
+function PriceTile({ sym, data, currentFavourite, setCurrentFavourite }) { //currentFavourite is assigned here with a value here, coz if it's-
+    //- not put/specifyied with any arguments/values, it will always be true
+    return (
+        <StyledPriceTile onClick={setCurrentFavourite} currentFavourite={currentFavourite}>
+            <StyledCoinHeaderGrid>
                 <div> {sym} </div>
-                <CHnagePercent data= {data} />
-            </CoinHeaderGridStyled>
-            <TickerPrice>
+                <ChangePercent data={data} />
+            </StyledCoinHeaderGrid>
+            <CoinPrice>
                 ${numberFormat(data.PRICE)}
-            </TickerPrice>
-        </PriceTileStyled>
-    )
+            </CoinPrice>
+        </StyledPriceTile>
+    );
 }
 
-
-function PriceTileCompact({sym, data, currentFavorite, setCurrentFavorite}){
-    return(
-        <PriceTileStyled compact currentFavorite={currentFavorite} onClick={setCurrentFavorite}>
-                <JustifyLeft> {sym} </JustifyLeft>
-                <CHnagePercent data= {data} />
+function PriceTileContent({ sym, data, currentFavourite, setCurrentFavourite }) {
+    return (
+        <StyledPriceTile onClick={setCurrentFavourite} compact currentFavourite={currentFavourite}>
+            <JustifyLeft> {sym} </JustifyLeft>
+            <ChangePercent data={data} />
             <div>
                 ${numberFormat(data.PRICE)}
             </div>
-        </PriceTileStyled>
-    )
+        </StyledPriceTile>
+    );
 }
 
-export default function ({price, index}) {
+export default function ({ price, index }) {
     let sym = Object.keys(price)[0];
     let data = price[sym]['USD'];
-    let TileCLass = index < 5 ? PriceTile : PriceTileCompact;
+    let TileClass = index < 5 ? PriceTile : PriceTileContent;
     return (
         <AppContext.Consumer>
-            {({currentFavorite, setCurrentFavorite}) => 
-                <TileCLass 
-                sym={sym} 
-                data={data} 
-                currentFavorite={currentFavorite === sym}
-                setCurrentFavorite={ ()=> setCurrentFavorite(sym)} >
-                {/* {sym} {data.PRICE} */}
-            </TileCLass>
+            {({ currentFavourite, setCurrentFavourite }) =>
+                < TileClass
+                    sym={sym}
+                    data={data}
+                    currentFavourite={currentFavourite === sym}
+                    setCurrentFavourite={() => setCurrentFavourite(sym)}
+                />
             }
         </AppContext.Consumer>
+        //setCurrentFavourite is set to an => fn(), only then it could pass in the sym
     )
+
 }

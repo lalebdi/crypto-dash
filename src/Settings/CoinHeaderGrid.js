@@ -1,35 +1,32 @@
-import React from 'react';
-import styled from 'styled-components';
-import { DeletableTile } from '../Shared/Tile';
+import React from 'react'
+import styled from 'styled-components'
+import { DeletableTile } from '../Shared/Tile'
 
-export const CoinHeaderGridStyled = styled.div`
-display: grid;
-grid-template-columns: 1fr 1fr;
+export const StyledCoinHeaderGrid = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 `
-// 2 columns for the name and the symbol
-
-export const CoinSymbol = styled.div`
- justify-self: right;
+export const StyledCoinSymbol = styled.div`
+    justify-self: right;
 `
-// to float to the right
-
-const DeleteIcon = styled.div`
-justify-self: right;
-display: none;
-${DeletableTile}:hover & {
-    display: block;
-    color:red;
-}
+export const StyledDeleteIcon = styled.div`
+    justify-self: right;
+    display: none;
+    ${DeletableTile}:hover &{
+        display: block;
+        color: orange;
+    }
 `
 
-export default function CoinHeaderGrid({name, symbol, topSection}) {
+export default function ({ name, symbol, favouriteSection }) {
     return (
-        <CoinHeaderGridStyled>
+        <StyledCoinHeaderGrid>
             <div> {name} </div>
-            {topSection ? (
-                <DeleteIcon>X</DeleteIcon>
-                ) : (<CoinSymbol> {symbol} </CoinSymbol>
+            {favouriteSection ? (
+                <StyledDeleteIcon> X </StyledDeleteIcon>
+            ) : (
+                    <StyledCoinSymbol> {symbol} </StyledCoinSymbol>
                 )}
-        </CoinHeaderGridStyled>
+        </StyledCoinHeaderGrid>
     )
 }

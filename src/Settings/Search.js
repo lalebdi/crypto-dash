@@ -1,67 +1,65 @@
 import React from 'react';
 import styled from 'styled-components';
-import { backgroundColor2, fontSize2 } from '../Shared/Styles';
-import { AppContext } from '../App/AppProvider';
 import _ from 'lodash';
 import fuzzy from 'fuzzy';
+import { backgroundColor2, fontSize2 } from '../Shared/Styles';
+import { AppContext } from '../App/AppProvider';
 
-const SearchGrid = styled.div`
-display: grid;
-grid-template-columns: 200px 1fr;
+const StyledSearchGrid = styled.div`
+    display: grid;
+    grid-template-columns: 220px 1fr;
 `
-const SearchInput= styled.input`
-${backgroundColor2}
-${fontSize2}
-border: 1px solid;
-height: 25px;
-color: #1163c9;
-place-self: center left;
+const StyledSearchInput = styled.input`
+    ${backgroundColor2}
+    ${fontSize2}
+    border: 1.5px solid;
+    height: 35px;
+    color: #1163c9;
+    place-self: center left;
+    border-radius: 3px;
 `
-// creating a debaounce function (compliments of lodash) to prevent firing off multiple searches with each input
-// the second argument is the time
-const handleFilter = _.debounce((inputValue, coinList, setFilterCoins) => {
-    // console.log(inputValue);
-    //  Getting all the coin symbols
+// lodash provides debounce functions that help prevent executing multiple events, by delaying consecutive event/function calls
+// debounce function is used here to perform too many filtering operations at the same time, while searching for a coin => the filtering-
+//- operations won't be triggered for every alphabet(s) that's entered, before completion
+const handleFilter = _.debounce((inputValue, coinList, setFilteredCoins) => {
+    // 1) Get all the coin symbols
     let coinSymbols = Object.keys(coinList);
-    // Get all the coin name map symbol to name
-    let coinNames = coinSymbols.map(sym => coinList[sym].CoinName)
-    // compiling all the list we want to search
-    let allStringsToSearch = coinSymbols.concat(coinNames); // so when the user searches BTC it will yield the same as bitcoin
-    // console.log(allStringsToSearch);
-    // will use fuzzy to do the search for us. the third argument is options 
-    let fuzzyResults = fuzzy.filter(inputValue, allStringsToSearch, {}).map(result => result.string);
-    console.log(fuzzyResults);
-    // transferring the fuzzyResults into the coins using .map()
-    // pickBy will pick from the object a list of keys from the callback function
-    let filteredCoins = _.pickBy(coinList, (result, symKey) =>{
+    // 2) Get all the Coin Names and map the symbol to the names
+    let coinNames = coinSymbols.map(sym => coinList[sym].CoinName);
+    // 3) Concatenate the Symbols and Names into 1 list , so Eg: the user can search for Bitcoin by typing name Bitcoin or Symbol BTC
+    let allStringsToSearch = coinSymbols.concat(coinNames); //allStringsToSearch -> has both coin names and coin symbols
+    let fuzzyResults = fuzzy
+        .filter(inputValue, allStringsToSearch, {}) // value to search, arrey to look in, options array(optional)
+        .map(result => result.string); //mapping all array values to their string property[string is the prop that holds the name]
+    let filteredCoins = _.pickBy(coinList, (result, symKey) => { //Creates an object composed of the object properties, based on a callback
+        // arg1 : datastructure to look in || arg2: callback -> iterator fn(value to look for)
         let coinName = result.CoinName;
-        return (_.includes(fuzzyResults, symKey) || _.includes(fuzzyResults, coinName) )
-    })
-    // console.log(filteredCoins);
-    setFilterCoins(filteredCoins)
-}, 500)
+        // A truthful expn should be returned here, in this case, if the expn is true, corresponding key would be removed off the coinList
+        return (_.includes(fuzzyResults, symKey) || _.includes(fuzzyResults, coinName)) // This allows to search coins by name/symbol
+    });
+    console.log(filteredCoins);
+    setFilteredCoins(filteredCoins); // This sets the filteredCoins in the state of AppProvider.js, so it will be available in coinGrid
+}, 500);//500 -> atleast half a second should pass, before setting this debounce function
 
-
-function filterCoins(e, setFilteredCoins, coinList){
+function filterCoins(e, setFilteredCoins, coinList) {
     let inputValue = e.target.value;
-    // console.log(inputValue);
-    // the if statement below is to rest the search if there's not input
-    if(!inputValue){
-        setFilteredCoins(null);
-        return
+    if (!inputValue) {// To check if the user input is empty
+        setFilteredCoins(null);// => display sliced list of 1st 100 coins from coinList, if the user has not typed anything or-
+        //- if the user had cleared the input
+        return;
     }
     handleFilter(inputValue, coinList, setFilteredCoins);
 }
 
-export default function Search() {
+export default function () {
     return (
         <AppContext.Consumer>
-            {({setFilteredCoins, coinList}) => 
-        <SearchGrid>
-            <h2>Searchall coins</h2>
-            <SearchInput onKeyUp={(e) => filterCoins(e, setFilteredCoins, coinList)} />
-        </SearchGrid>
-        }
+            {({ setFilteredCoins, coinList }) =>
+                <StyledSearchGrid>
+                    <h1>Search Coins</h1>
+                    <StyledSearchInput onKeyUp={(e) => filterCoins(e, setFilteredCoins, coinList)} />
+                </StyledSearchGrid>
+            }
         </AppContext.Consumer>
     )
 }

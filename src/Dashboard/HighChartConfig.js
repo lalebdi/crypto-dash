@@ -1,54 +1,48 @@
-export default function(){
+export default function (historicalData) {
     return {
         title: {
-            text: ''
-          },
-          yAxis: {
+            text: ' '
+        },
+        yAxis: {
             title: {
-              text: 'PRICE'
+                text: 'Price'
             }
-          },
-        
-          xAxis: {
-            accessibility: {
-              rangeDescription: 'Range: 2010 to 2017'
-            }
-          },
-        
-          legend: {
+        },
+
+        xAxis: { type: 'datetime' },
+
+        legend: {
             layout: 'vertical',
             align: 'right',
             verticalAlign: 'middle'
-          },
-        
-          plotOptions: {
+        },
+
+        plotOptions: {
             series: {
-              label: {
-                connectorAllowed: false
-              },
-              pointStart: 2010
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 2010
             }
-          },
-        
-          series: [{
-            name: 'Installation',
-            data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-          }],
-        
-          responsive: {
+        },
+
+        series: historicalData,
+
+        responsive: {
             rules: [{
-              condition: {
-                maxWidth: 500
-              },
-              chartOptions: {
-                legend: {
-                  layout: 'horizontal',
-                  align: 'center',
-                  verticalAlign: 'bottom'
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
                 }
-              }
             }]
-          }
-        
-        };
-    }
+        }
+
+    };
+
+}

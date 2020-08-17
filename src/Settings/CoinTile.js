@@ -1,37 +1,37 @@
 import React from 'react';
 import { AppContext } from '../App/AppProvider';
-import {SelectableTile, DisabledTile, DeletableTile} from '../Shared/Tile';
+import { SelectableTile, DeletableTile, DisabledTile } from '../Shared/Tile';
 import CoinHeaderGrid from './CoinHeaderGrid';
-import CoinImage from '../Shared/CoinImage'
+import CoinImage from '../Shared/CoinImage';
 
-function clickCoinHandler(topSection, coinKey, addCoin, removeCoin){
-    return topSection ? () =>{
-        removeCoin(coinKey)} : ()=>{
-            addCoin(coinKey)
-        }
+function coinClickHandler(favouriteSection, coinKey, addCoin, removeCoin) {
+    return favouriteSection ? () => {
+        removeCoin(coinKey)
+    } : () => {
+        addCoin(coinKey)
     }
-
+}
 // the onClick functions need to be in the consumer
 // the params are passed from the coinGrid
-export default function CoinTile({coinKey, topSection}) {
+export default function ({ coinKey, favouriteSection }) {
     return (
         <AppContext.Consumer>
-            {({coinList, addCoin, removeCoin, isInFavorites}) => {
-                let coin = coinList[coinKey];
-
+            {({ coinList, addCoin, removeCoin, isInFavourites }) => {
+                let coin = coinList[coinKey];  // This is a Coin Object
                 let TileClass = SelectableTile;
-                if(topSection){
+
+                if (favouriteSection) { // If in favouriteSection
                     TileClass = DeletableTile;
-                } else if(isInFavorites(coinKey)){
-                    TileClass = DisabledTile;
+                } else if (isInFavourites(coinKey)) { // If in the main coin list
+                    TileClass = DisabledTile; // Give the DisabledTile styling, for the tiles present in favouriteSection
                 }
 
-                return <TileClass
-                onClick={clickCoinHandler(topSection, coinKey, addCoin, removeCoin)}
-                >
-                    <CoinHeaderGrid topSection={topSection} name={coin.CoinName} symbol={coin.Symbol}/>
-                <CoinImage coin={coin} />
-                </TileClass>
+                return (
+                    <TileClass onClick={coinClickHandler(favouriteSection, coinKey, addCoin, removeCoin)}>
+                        <CoinHeaderGrid favouriteSection={favouriteSection} name={coin.CoinName} symbol={coin.Symbol} />
+                        <CoinImage coin={coin} />
+                    </TileClass>
+                )
             }}
         </AppContext.Consumer>
     )

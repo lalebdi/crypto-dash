@@ -1,19 +1,12 @@
 export default {
-    colors: ['#DDDF0D', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee',
-        '#ff0066', '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+    colors: ['#61D936', '#552CCB', '#1163C9', '#04A1EE', '#08C6E0',
+        '#146B9E', '#F376C1', '#55BF3B', '#1B2839'],
     chart: {
-        backgroundColor: {
-            linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
-            stops: [
-                [0, 'rgb(48, 48, 96)'],
-                [1, 'rgb(0, 0, 0)']
-            ]
-        },
+        backgroundColor: '#061a44',
         borderColor: '#000000',
         borderWidth: 0,
         className: 'dark-container',
-        plotBackgroundColor: 'rgba(255, 255, 255, .1)',
-        plotBorderColor: '#CCCCCC',
+        plotBackgroundColor: '#061a44',
         plotBorderWidth: 0
     },
     title: {
@@ -48,6 +41,7 @@ export default {
         }
     },
     yAxis: {
+        gridLineWidth: 0,
         gridLineColor: '#333333',
         labels: {
             style: {
@@ -120,9 +114,8 @@ export default {
         }
     },
     credits: {
-        enabled: false   
-    }
-    ,
+        enabled: false
+    },
     labels: {
         style: {
             color: '#CCC'
@@ -234,4 +227,5 @@ export default {
             ]
         },
         trackBorderColor: '#666'
-    }}
+    }
+};

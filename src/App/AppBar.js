@@ -1,49 +1,59 @@
-import React from 'react';
+import React from 'react'
 import styled, { css } from 'styled-components';
 import { AppContext } from './AppProvider';
 
 const Logo = styled.div`
-font-size: 1.5em
+    font-size: 1.5em;
 `
 
 const Bar = styled.div`
-display: grid;
-margin-bottom: 40px;
-grid-template-columns: 180px auto 100px 100px;
+    display:grid;
+    margin-bottom: 40px;
+    grid-template-columns: 180px auto 100px 100px;
 `
-const ControlButtonElem = styled.div`
-cursor: pointer;
-${props => props.active && css`
-text-shadow: 0px 0px 60px #03ff03;
-`}
+
+const ControlButonElem = styled.div`
+    cursor: pointer;
+    ${props => props.active && css`
+        color: red;
+        text-shadow: 0px 0px 0px gold;
+    `}
+    ${props => props.hidden && css`
+        display:none;
+    `}
 `
-function toProperCase(lower){
+
+function toProperCase(lower) {
     return lower.charAt(0).toUpperCase() + lower.substr(1);
 }
 
 // the name below will extract from props above
-function ControlButton({name, active}){
+function ControlButton({ name }) {
+    // Consumer takes in a callback fn() || The page is checked to see if it is active, by verfying if the page === name that is passed in
     return (
         <AppContext.Consumer>
-            {({page, setPage}) => (
-    <ControlButtonElem 
-    active={page === name}
-    onClick = {()=> setPage(name)}
-    >
-        {toProperCase(name)}
-    </ControlButtonElem>
+            {({ firstVisit, page, setPage }) => (
+                <ControlButonElem
+                    active={page === name}
+                    onClick={() => setPage(name)}
+                    hidden={firstVisit && name === 'dashboard'}
+                >
+                    {toProperCase(name)}
+                </ControlButonElem>
             )}
-    </AppContext.Consumer>
+        </AppContext.Consumer>
     )
 }
 
-export default function(){
-    return(
-        <Bar>
-            <Logo> CryptoDash </Logo>
-            <div />
-            <ControlButton active name="dashboard" />
-            <ControlButton name="settings" />
-        </Bar>
+export default function () {
+    return (
+        <div>
+            <Bar>
+                <Logo>CryptoDash</Logo>
+                <div></div>
+                <ControlButton active name="dashboard" />
+                <ControlButton name="settings" />
+            </Bar>
+        </div>
     );
 }
