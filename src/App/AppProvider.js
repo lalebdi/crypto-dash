@@ -4,7 +4,7 @@ import moment from 'moment';
 
 const cc = require('cryptocompare');
 
-export const AppContext = React.createContext(); // creating and exporting the context, to use it in teh consumers in the child components
+export const AppContext = React.createContext(); // creating and exporting the context, to use it in the consumers in the child components
 
 const MAX_FAVOURITES = 10;
 const TIME_UNITS = 10;
