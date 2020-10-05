@@ -1,4 +1,6 @@
 <!-- PROJECT LOGO -->
+![pic7](https://user-images.githubusercontent.com/67381036/95082775-91e85080-06e9-11eb-81af-651b550d988b.jpg)
+
 <br />
 <p align="center">
   
