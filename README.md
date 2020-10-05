@@ -95,9 +95,9 @@ npm install
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+This project has been deplyed
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+_please refer to the [Live Site](https://5f552ffdcbf55b28043a2301--epic-ride-b0dd1f.netlify.app)_
 
 
 
