@@ -47,10 +47,16 @@ This an interactive site that saves your favorite cryptocurrency and shows you t
 ### Built With
 
 * React
-* Fuzzy
+* Fuzzy Search
 * lodash
 * moment
 * Styled Compnents
+* CSS Grid
+* HighCharts
+* Crypto API
+* HighCharts
+* LocalStorage
+* Webkit Inspector
 
 
 
