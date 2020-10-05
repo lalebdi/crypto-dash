@@ -1,14 +1,12 @@
-
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
   
 
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">CryptoCharts</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    An awesome cryptocurrency charting ticker!
     
   </p>
 </p>
