@@ -22,7 +22,6 @@
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Usage](#usage)
-* [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [License](#license)
 * [Contact](#contact)
@@ -99,12 +98,6 @@ This project has been deplyed
 
 _please refer to the [Live Site](https://5f552ffdcbf55b28043a2301--epic-ride-b0dd1f.netlify.app)_
 
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
 
 
 
