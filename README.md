@@ -137,11 +137,3 @@ Project Link: [https://github.com/lalebdi/cryptoCharts](https://github.com/laleb
 
 
 
-
-
-## Available Scripts
-
-In the project directory, you can run:
-
-
-
